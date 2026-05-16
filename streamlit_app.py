@@ -96,6 +96,37 @@ st.markdown("""
         50% { transform: scale(1.05); }
         100% { transform: scale(1); }
     }
+
+    /* --- MOBILE RESPONSIVENESS --- */
+    @media (max-width: 768px) {
+        /* Hide the empty spacer columns on mobile */
+        [data-testid="column"]:has(.spacer-marker) {
+            display: none !important;
+        }
+
+        /* Make the grid container take full width */
+        [data-testid="column"]:has(.grid-container-marker) {
+            width: 100% !important;
+            min-width: 100% !important;
+        }
+
+        /* Keep the rows inside the grid container horizontal instead of stacking */
+        [data-testid="column"]:has(.grid-container-marker) [data-testid="stHorizontalBlock"] {
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+        }
+        
+        /* Resize buttons to fit mobile screens */
+        button[kind="secondary"] {
+            height: 90px !important;
+        }
+        button[kind="secondary"] p {
+            font-size: 2.5rem !important;
+        }
+        
+        h1 { font-size: 2.2rem !important; padding-top: 10px !important; }
+        h3 { font-size: 1.2rem !important; margin-bottom: 1rem !important; }
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -292,7 +323,13 @@ else:
 st.write("") # Add some spacing
 spacer_left, grid_container, spacer_right = st.columns([1, 1.5, 1])
 
+with spacer_left:
+    st.markdown('<span class="spacer-marker"></span>', unsafe_allow_html=True)
+with spacer_right:
+    st.markdown('<span class="spacer-marker"></span>', unsafe_allow_html=True)
+
 with grid_container:
+    st.markdown('<span class="grid-container-marker"></span>', unsafe_allow_html=True)
     for row in range(3):
         cols = st.columns(3)
         for col in range(3):
