@@ -112,8 +112,10 @@ st.markdown("""
         padding: 0 4px !important;
     }
 
-    /* Keep the horizontal blocks (rows) from wrapping */
+    /* Keep the horizontal blocks (rows) from wrapping and force them to stay side-by-side on mobile */
     [data-testid="block-container"] [data-testid="stHorizontalBlock"] {
+        flex-direction: row !important;
+        display: flex !important;
         flex-wrap: nowrap !important;
     }
 
