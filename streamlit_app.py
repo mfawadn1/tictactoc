@@ -110,20 +110,30 @@ st.markdown("""
             min-width: 100% !important;
         }
 
-        /* Keep the rows inside the grid container horizontal instead of stacking */
-        [data-testid="column"]:has(.grid-container-marker) [data-testid="stHorizontalBlock"] {
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
-            display: flex !important;
+        /* Resize buttons to fit mobile screens */
+        button[kind="secondary"] {
+            height: 90px !important;
         }
-
-        /* Force the inner columns (the 3 buttons) to stay at 33% width */
-        [data-testid="column"]:has(.grid-container-marker) [data-testid="stHorizontalBlock"] > [data-testid="column"] {
-            width: 33.33% !important;
-            min-width: 33.33% !important;
-            flex-basis: 33.33% !important;
-            padding: 0 4px !important; /* add a small gap between buttons */
+        button[kind="secondary"] p {
+            font-size: 2.5rem !important;
         }
+        
+        h1 { font-size: 2.2rem !important; padding-top: 10px !important; }
+        h3 { font-size: 1.2rem !important; margin-bottom: 1rem !important; }
+    }
+    
+    /* --- GRID FIX (Universal for Desktop & Mobile) --- */
+    /* Instead of Streamlit columns, we use a CSS Grid on the vertical block */
+    [data-testid="column"]:has(.grid-container-marker) [data-testid="stVerticalBlock"] {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 10px !important;
+    }
+    
+    /* Hide the marker itself from the grid layout */
+    [data-testid="column"]:has(.grid-container-marker) [data-testid="stVerticalBlock"] > div:first-child {
+        display: none !important;
+    }
         
         /* Resize buttons to fit mobile screens */
         button[kind="secondary"] {
@@ -339,32 +349,23 @@ with spacer_right:
 
 with grid_container:
     st.markdown('<span class="grid-container-marker"></span>', unsafe_allow_html=True)
-    for row in range(3):
-        cols = st.columns(3)
-        for col in range(3):
-            i = row * 3 + col
-            with cols[col]:
-                val = st.session_state.board[i]
-                if val == 'x':
-                    label = "**:blue[X]**"
-                elif val == 'o':
-                    label = "**:green[O]**"
+    for i in range(9):
+        val = st.session_state.board[i]
+        label = "**:blue[X]**" if val == 'x' else "**:green[O]**" if val == 'o' else " "
+        
+        if st.button(label, key=f"btn_{i}", use_container_width=True, disabled=st.session_state.board[i] != 'b' or st.session_state.winner is not None):
+            if st.session_state.current_turn == 'x':
+                st.session_state.board[i] = 'x'
+                st.session_state.winner = check_winner(st.session_state.board)
+                if not st.session_state.winner:
+                    st.session_state.current_turn = 'o'
                 else:
-                    label = " "
-                
-                if st.button(label, key=f"btn_{i}", use_container_width=True, disabled=st.session_state.board[i] != 'b' or st.session_state.winner is not None):
-                    if st.session_state.current_turn == 'x':
-                        st.session_state.board[i] = 'x'
-                        st.session_state.winner = check_winner(st.session_state.board)
-                        if not st.session_state.winner:
-                            st.session_state.current_turn = 'o'
-                        else:
-                            if st.session_state.winner == 'x': st.session_state.scores['Player'] += 1
-                            elif st.session_state.winner == 'draw': st.session_state.scores['Draws'] += 1
-                            
-                            if st.session_state.winner != 'draw':
-                                save_game_to_csv(st.session_state.board, st.session_state.winner)
-                        st.rerun()
+                    if st.session_state.winner == 'x': st.session_state.scores['Player'] += 1
+                    elif st.session_state.winner == 'draw': st.session_state.scores['Draws'] += 1
+                    
+                    if st.session_state.winner != 'draw':
+                        save_game_to_csv(st.session_state.board, st.session_state.winner)
+                st.rerun()
 
 # AI Move
 if st.session_state.current_turn == 'o' and not st.session_state.winner:
