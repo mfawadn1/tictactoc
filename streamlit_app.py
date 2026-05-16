@@ -8,23 +8,88 @@ from main import run_training_pipeline
 # --- CONFIG ---
 st.set_page_config(page_title="Tic-Tac-Toe", page_icon="🤖", layout="wide")
 
-# Custom CSS for the grid
+# Premium Custom CSS for the UI
 st.markdown("""
     <style>
-    .stButton>button {
-        height: 100px;
-        width: 100px;
-        font-size: 30px;
-        font-weight: bold;
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+    
+    html, body, [class*="css"] {
+        font-family: 'Outfit', sans-serif;
     }
+
+    /* Main Background & Glassmorphism container approximation */
+    .stApp {
+        background: radial-gradient(circle at top right, #1e293b 0%, #0b1120 100%);
+    }
+
+    /* Title Gradient */
+    h1 {
+        background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+        text-align: center;
+        padding-top: 20px;
+    }
+    
+    h3 {
+        color: #94a3b8 !important;
+        text-align: center;
+        font-weight: 400;
+        margin-bottom: 2rem;
+    }
+
+    /* Grid Buttons (Square format) targeted specifically */
+    div[data-testid="column"] > div > div > div > div.stButton > button {
+        height: 120px;
+        width: 100%;
+        font-size: 3.5rem;
+        font-weight: 700;
+        background: rgba(30, 41, 59, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        color: #f8fafc;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.02);
+    }
+    
+    div[data-testid="column"] > div > div > div > div.stButton > button:hover {
+        background: rgba(51, 65, 85, 0.6);
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Action Buttons (Primary) */
+    button[kind="primary"] {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+        border: none !important;
+        color: white !important;
+        font-size: 1.1rem !important;
+        border-radius: 12px !important;
+        height: 50px !important;
+        font-weight: 600 !important;
+        box-shadow: 0 8px 20px -5px rgba(37, 99, 235, 0.4) !important;
+        transition: all 0.3s !important;
+    }
+    button[kind="primary"]:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 15px 25px -10px rgba(37, 99, 235, 0.5) !important;
+    }
+
     .winner-text {
-        font-size: 40px;
+        font-size: 2.5rem;
         color: #4ade80;
         text-align: center;
-        font-weight: bold;
+        font-weight: 700;
+        margin: 20px 0;
+        text-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+        animation: pulse 2s infinite;
     }
-    .ai-turn {
-        color: #fbbf24;
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
     }
     </style>
 """, unsafe_allow_html=True)
@@ -145,7 +210,7 @@ with st.sidebar:
     st.write(f"🤝 Draws: {st.session_state.scores['Draws']}")
     
     st.header("3. Retraining Pipeline")
-    if st.button("🚀 Run Training Pipeline"):
+    if st.button("🚀 Run Training Pipeline", type="primary", use_container_width=True):
         with st.spinner("Retraining models..."):
             best_name, best_acc, best_path = run_training_pipeline()
             st.success(f"Best Model: {best_name}")
@@ -167,7 +232,7 @@ if st.session_state.winner:
         st.markdown('<p class="winner-text">It\'s a Draw! 🤝</p>', unsafe_allow_html=True)
     else:
         st.markdown(f'<p class="winner-text">{"You" if st.session_state.winner == "x" else "AI"} Won! 🎉</p>', unsafe_allow_html=True)
-    if st.button("Play Again"):
+    if st.button("Play Again", type="primary", use_container_width=True):
         reset_game()
         st.rerun()
 else:
