@@ -100,7 +100,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- MODEL LOADING ---
-MODEL_PATH = 'models/dt_model.pkl'
+MODEL_PATH = 'models/best_model.pkl'
+if not os.path.exists(MODEL_PATH):
+    MODEL_PATH = 'models/dt_model.pkl'
 FEATURE_MAP = {'b': 0, 'o': 1, 'x': 2}
 TARGET_MAP = {0: 'negative', 1: 'positive'}
 
@@ -114,6 +116,18 @@ def load_model(path):
 model = load_model(MODEL_PATH)
 
 # --- GAME LOGIC ---
+def save_game_to_csv(board, winner):
+    if winner == 'draw' or not winner: return
+    try:
+        row = [f"b'{s.lower()}'" for s in board]
+        result_class = "b'positive'" if winner == 'x' else "b'negative'"
+        row.append(result_class)
+        with open('tictactoe_data.csv', 'a', newline='') as f:
+            f.write(",".join(row) + "\n")
+        print(f"Saved game to CSV: {result_class}")
+    except Exception as e:
+        print(f"Failed to save to CSV: {e}")
+
 def check_winner(board):
     lines = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -301,6 +315,9 @@ with grid_container:
                         else:
                             if st.session_state.winner == 'x': st.session_state.scores['Player'] += 1
                             elif st.session_state.winner == 'draw': st.session_state.scores['Draws'] += 1
+                            
+                            if st.session_state.winner != 'draw':
+                                save_game_to_csv(st.session_state.board, st.session_state.winner)
                         st.rerun()
 
 # AI Move
@@ -316,6 +333,9 @@ if st.session_state.current_turn == 'o' and not st.session_state.winner:
         else:
             if st.session_state.winner == 'o': st.session_state.scores['AI'] += 1
             elif st.session_state.winner == 'draw': st.session_state.scores['Draws'] += 1
+            
+            if st.session_state.winner != 'draw':
+                save_game_to_csv(st.session_state.board, st.session_state.winner)
         st.rerun()
 
 st.divider()

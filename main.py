@@ -79,7 +79,12 @@ def run_training_pipeline():
     print("Plots updated in 'plots/' directory.")
     # ----------------------------------------------
     
+    import shutil
+    shutil.copy(best_path, 'models/best_model.pkl')
+    print(f"Best model copied to 'models/best_model.pkl'.")
+    
     return best_model, max_acc, best_path
+
 
 def main():
     run_training_pipeline()
