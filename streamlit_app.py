@@ -114,6 +114,15 @@ st.markdown("""
         [data-testid="column"]:has(.grid-container-marker) [data-testid="stHorizontalBlock"] {
             flex-direction: row !important;
             flex-wrap: nowrap !important;
+            display: flex !important;
+        }
+
+        /* Force the inner columns (the 3 buttons) to stay at 33% width */
+        [data-testid="column"]:has(.grid-container-marker) [data-testid="stHorizontalBlock"] > [data-testid="column"] {
+            width: 33.33% !important;
+            min-width: 33.33% !important;
+            flex-basis: 33.33% !important;
+            padding: 0 4px !important; /* add a small gap between buttons */
         }
         
         /* Resize buttons to fit mobile screens */
