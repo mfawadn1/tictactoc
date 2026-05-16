@@ -251,14 +251,14 @@ with grid_container:
                 label = st.session_state.board[i].upper() if st.session_state.board[i] != 'b' else ""
                 if st.button(label if label else " ", key=f"btn_{i}", use_container_width=True, disabled=st.session_state.board[i] != 'b' or st.session_state.winner is not None):
                     if st.session_state.current_turn == 'x':
-                st.session_state.board[i] = 'x'
-                st.session_state.winner = check_winner(st.session_state.board)
-                if not st.session_state.winner:
-                    st.session_state.current_turn = 'o'
-                else:
-                    if st.session_state.winner == 'x': st.session_state.scores['Player'] += 1
-                    elif st.session_state.winner == 'draw': st.session_state.scores['Draws'] += 1
-                st.rerun()
+                        st.session_state.board[i] = 'x'
+                        st.session_state.winner = check_winner(st.session_state.board)
+                        if not st.session_state.winner:
+                            st.session_state.current_turn = 'o'
+                        else:
+                            if st.session_state.winner == 'x': st.session_state.scores['Player'] += 1
+                            elif st.session_state.winner == 'draw': st.session_state.scores['Draws'] += 1
+                        st.rerun()
 
 # AI Move
 if st.session_state.current_turn == 'o' and not st.session_state.winner:
