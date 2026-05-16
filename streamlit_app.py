@@ -95,54 +95,32 @@ st.markdown("""
         0% { transform: scale(1); }
         50% { transform: scale(1.05); }
         100% { transform: scale(1); }
+    }    /* --- MOBILE & GRID RESPONSIVENESS --- */
+    /* Limit the max width of the main app container so it looks like a clean centered app on desktop */
+    [data-testid="block-container"] {
+        max-width: 500px !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        margin: 0 auto !important;
     }
 
-    /* --- MOBILE RESPONSIVENESS --- */
+    /* Force all columns in the main area to stay 33.33% wide ALWAYS, preventing Streamlit's mobile stacking */
+    [data-testid="block-container"] [data-testid="column"] {
+        width: 33.33% !important;
+        min-width: 33.33% !important;
+        flex: 1 1 33.33% !important;
+        padding: 0 4px !important;
+    }
+
+    /* Keep the horizontal blocks (rows) from wrapping */
+    [data-testid="block-container"] [data-testid="stHorizontalBlock"] {
+        flex-wrap: nowrap !important;
+    }
+
+    /* Resize buttons slightly for mobile */
     @media (max-width: 768px) {
-        /* Hide the empty spacer columns on mobile */
-        [data-testid="column"]:has(.spacer-marker) {
-            display: none !important;
-        }
-
-        /* Make the grid container take full width */
-        [data-testid="column"]:has(.grid-container-marker) {
-            width: 100% !important;
-            min-width: 100% !important;
-        }
-
-        /* Resize buttons to fit mobile screens */
-        button[kind="secondary"] {
-            height: 90px !important;
-        }
-        button[kind="secondary"] p {
-            font-size: 2.5rem !important;
-        }
-        
-        h1 { font-size: 2.2rem !important; padding-top: 10px !important; }
-        h3 { font-size: 1.2rem !important; margin-bottom: 1rem !important; }
-    }
-    
-    /* --- GRID FIX (Universal for Desktop & Mobile) --- */
-    /* Instead of Streamlit columns, we use a CSS Grid on the vertical block */
-    [data-testid="column"]:has(.grid-container-marker) [data-testid="stVerticalBlock"] {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 10px !important;
-    }
-    
-    /* Hide the marker itself from the grid layout */
-    [data-testid="column"]:has(.grid-container-marker) [data-testid="stVerticalBlock"] > div:first-child {
-        display: none !important;
-    }
-        
-        /* Resize buttons to fit mobile screens */
-        button[kind="secondary"] {
-            height: 90px !important;
-        }
-        button[kind="secondary"] p {
-            font-size: 2.5rem !important;
-        }
-        
+        button[kind="secondary"] { height: 90px !important; }
+        button[kind="secondary"] p { font-size: 2.5rem !important; }
         h1 { font-size: 2.2rem !important; padding-top: 10px !important; }
         h3 { font-size: 1.2rem !important; margin-bottom: 1rem !important; }
     }
@@ -340,32 +318,28 @@ else:
 
 # Grid Layout
 st.write("") # Add some spacing
-spacer_left, grid_container, spacer_right = st.columns([1, 1.5, 1])
 
-with spacer_left:
-    st.markdown('<span class="spacer-marker"></span>', unsafe_allow_html=True)
-with spacer_right:
-    st.markdown('<span class="spacer-marker"></span>', unsafe_allow_html=True)
-
-with grid_container:
-    st.markdown('<span class="grid-container-marker"></span>', unsafe_allow_html=True)
-    for i in range(9):
-        val = st.session_state.board[i]
-        label = "**:blue[X]**" if val == 'x' else "**:green[O]**" if val == 'o' else " "
-        
-        if st.button(label, key=f"btn_{i}", use_container_width=True, disabled=st.session_state.board[i] != 'b' or st.session_state.winner is not None):
-            if st.session_state.current_turn == 'x':
-                st.session_state.board[i] = 'x'
-                st.session_state.winner = check_winner(st.session_state.board)
-                if not st.session_state.winner:
-                    st.session_state.current_turn = 'o'
-                else:
-                    if st.session_state.winner == 'x': st.session_state.scores['Player'] += 1
-                    elif st.session_state.winner == 'draw': st.session_state.scores['Draws'] += 1
-                    
-                    if st.session_state.winner != 'draw':
-                        save_game_to_csv(st.session_state.board, st.session_state.winner)
-                st.rerun()
+for row in range(3):
+    cols = st.columns(3)
+    for col in range(3):
+        i = row * 3 + col
+        with cols[col]:
+            val = st.session_state.board[i]
+            label = "**:blue[X]**" if val == 'x' else "**:green[O]**" if val == 'o' else " "
+            
+            if st.button(label, key=f"btn_{i}", use_container_width=True, disabled=st.session_state.board[i] != 'b' or st.session_state.winner is not None):
+                if st.session_state.current_turn == 'x':
+                    st.session_state.board[i] = 'x'
+                    st.session_state.winner = check_winner(st.session_state.board)
+                    if not st.session_state.winner:
+                        st.session_state.current_turn = 'o'
+                    else:
+                        if st.session_state.winner == 'x': st.session_state.scores['Player'] += 1
+                        elif st.session_state.winner == 'draw': st.session_state.scores['Draws'] += 1
+                        
+                        if st.session_state.winner != 'draw':
+                            save_game_to_csv(st.session_state.board, st.session_state.winner)
+                    st.rerun()
 
 # AI Move
 if st.session_state.current_turn == 'o' and not st.session_state.winner:
