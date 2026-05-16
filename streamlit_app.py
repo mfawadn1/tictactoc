@@ -48,9 +48,14 @@ st.markdown("""
         background: rgba(30, 41, 59, 0.4) !important;
         border: 1px solid rgba(255, 255, 255, 0.05) !important;
         border-radius: 16px !important;
-        color: #f8fafc !important;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.02) !important;
+    }
+    
+    button[kind="secondary"] p {
+        font-size: 3.5rem !important;
+        margin: 0 !important;
+        line-height: 1 !important;
     }
     
     button[kind="secondary"]:hover {
@@ -190,11 +195,13 @@ if 'board' not in st.session_state:
     st.session_state.current_turn = 'x'
     st.session_state.winner = None
     st.session_state.scores = {'Player': 0, 'AI': 0, 'Draws': 0}
+    st.session_state.animation_played = False
 
 def reset_game():
     st.session_state.board = ['b'] * 9
     st.session_state.current_turn = 'x'
     st.session_state.winner = None
+    st.session_state.animation_played = False
 
 # --- SIDEBAR ---
 with st.sidebar:
@@ -228,6 +235,13 @@ st.title("🎮 Tic-Tac-Toe by Fawad")
 st.subheader("Play against a Machine Learning powered Minimax AI")
 
 if st.session_state.winner:
+    if not st.session_state.get('animation_played', False):
+        if st.session_state.winner == 'x':
+            st.balloons()
+        elif st.session_state.winner == 'o':
+            st.snow()
+        st.session_state.animation_played = True
+
     if st.session_state.winner == 'draw':
         st.markdown('<p class="winner-text">It\'s a Draw! 🤝</p>', unsafe_allow_html=True)
     else:
@@ -248,8 +262,15 @@ with grid_container:
         for col in range(3):
             i = row * 3 + col
             with cols[col]:
-                label = st.session_state.board[i].upper() if st.session_state.board[i] != 'b' else ""
-                if st.button(label if label else " ", key=f"btn_{i}", use_container_width=True, disabled=st.session_state.board[i] != 'b' or st.session_state.winner is not None):
+                val = st.session_state.board[i]
+                if val == 'x':
+                    label = "**:blue[X]**"
+                elif val == 'o':
+                    label = "**:green[O]**"
+                else:
+                    label = " "
+                
+                if st.button(label, key=f"btn_{i}", use_container_width=True, disabled=st.session_state.board[i] != 'b' or st.session_state.winner is not None):
                     if st.session_state.current_turn == 'x':
                         st.session_state.board[i] = 'x'
                         st.session_state.winner = check_winner(st.session_state.board)
