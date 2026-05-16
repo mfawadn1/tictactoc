@@ -6,7 +6,7 @@ import time
 from main import run_training_pipeline
 
 # --- CONFIG ---
-st.set_page_config(page_title="Tic-Tac-Toe gg", page_icon="🤖", layout="wide")
+st.set_page_config(page_title="Tic-Tac-Toe", page_icon="🤖", layout="wide")
 
 # Custom CSS for the grid
 st.markdown("""
@@ -159,7 +159,7 @@ with st.sidebar:
         st.image("plots/confusion_matrices.png", caption="Confusion Matrices")
 
 # --- MAIN UI ---
-st.title("🎮 Tic-Tac-Toe AI")
+st.title("🎮 Tic-Tac-Toe by Fawad")
 st.subheader("Play against a Machine Learning powered Minimax AI")
 
 if st.session_state.winner:
