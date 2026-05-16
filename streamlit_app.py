@@ -6,7 +6,7 @@ import time
 from main import run_training_pipeline
 
 # --- CONFIG ---
-st.set_page_config(page_title="Tic-Tac-Toe AI MLOps", page_icon="🤖", layout="wide")
+st.set_page_config(page_title="Tic-Tac-Toe AI by fawad", page_icon="🤖", layout="wide")
 
 # Custom CSS for the grid
 st.markdown("""
