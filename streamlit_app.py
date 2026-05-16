@@ -40,23 +40,23 @@ st.markdown("""
     }
 
     /* Grid Buttons (Square format) targeted specifically */
-    div[data-testid="column"] > div > div > div > div.stButton > button {
-        height: 120px;
-        width: 100%;
-        font-size: 3.5rem;
-        font-weight: 700;
-        background: rgba(30, 41, 59, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 16px;
-        color: #f8fafc;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.02);
+    button[kind="secondary"] {
+        height: 120px !important;
+        width: 100% !important;
+        font-size: 3.5rem !important;
+        font-weight: 700 !important;
+        background: rgba(30, 41, 59, 0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 16px !important;
+        color: #f8fafc !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.02) !important;
     }
     
-    div[data-testid="column"] > div > div > div > div.stButton > button:hover {
-        background: rgba(51, 65, 85, 0.6);
-        transform: translateY(-2px);
-        border-color: rgba(255, 255, 255, 0.1);
+    button[kind="secondary"]:hover {
+        background: rgba(51, 65, 85, 0.6) !important;
+        transform: translateY(-2px) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
     }
 
     /* Action Buttons (Primary) */
@@ -236,15 +236,21 @@ if st.session_state.winner:
         reset_game()
         st.rerun()
 else:
-    st.write(f"Current Turn: **{'You (X)' if st.session_state.current_turn == 'x' else 'AI (O)'}**")
+    st.markdown(f"<h3>Current Turn: <b>{'You (X)' if st.session_state.current_turn == 'x' else 'AI (O)'}</b></h3>", unsafe_allow_html=True)
 
 # Grid Layout
-cols = st.columns([1, 1, 1])
-for i in range(9):
-    with cols[i % 3]:
-        label = st.session_state.board[i].upper() if st.session_state.board[i] != 'b' else ""
-        if st.button(label if label else " ", key=f"btn_{i}", disabled=st.session_state.board[i] != 'b' or st.session_state.winner is not None):
-            if st.session_state.current_turn == 'x':
+st.write("") # Add some spacing
+spacer_left, grid_container, spacer_right = st.columns([1, 1.5, 1])
+
+with grid_container:
+    for row in range(3):
+        cols = st.columns(3)
+        for col in range(3):
+            i = row * 3 + col
+            with cols[col]:
+                label = st.session_state.board[i].upper() if st.session_state.board[i] != 'b' else ""
+                if st.button(label if label else " ", key=f"btn_{i}", use_container_width=True, disabled=st.session_state.board[i] != 'b' or st.session_state.winner is not None):
+                    if st.session_state.current_turn == 'x':
                 st.session_state.board[i] = 'x'
                 st.session_state.winner = check_winner(st.session_state.board)
                 if not st.session_state.winner:
