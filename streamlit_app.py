@@ -237,6 +237,28 @@ st.subheader("Play against a Machine Learning powered Minimax AI")
 if st.session_state.winner:
     if not st.session_state.get('animation_played', False):
         if st.session_state.winner == 'x':
+            firecracker_html = """
+            <style>
+            .firecracker {
+                position: fixed;
+                font-size: 6rem;
+                z-index: 9999;
+                pointer-events: none;
+                animation: explode 2.5s ease-out forwards;
+            }
+            @keyframes explode {
+                0% { transform: scale(0) translateY(100vh) rotate(0deg); opacity: 1; }
+                50% { transform: scale(1.5) translateY(20vh) rotate(180deg); opacity: 1; }
+                100% { transform: scale(2) translateY(-10vh) rotate(360deg); opacity: 0; }
+            }
+            </style>
+            <div class="firecracker" style="left: 20%; animation-delay: 0s;">🎆</div>
+            <div class="firecracker" style="left: 50%; animation-delay: 0.2s;">🎇</div>
+            <div class="firecracker" style="left: 80%; animation-delay: 0.4s;">🎆</div>
+            <div class="firecracker" style="left: 35%; animation-delay: 0.6s;">🎇</div>
+            <div class="firecracker" style="left: 65%; animation-delay: 0.3s;">🎆</div>
+            """
+            st.markdown(firecracker_html, unsafe_allow_html=True)
             st.balloons()
         elif st.session_state.winner == 'o':
             st.snow()
