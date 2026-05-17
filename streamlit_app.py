@@ -99,20 +99,20 @@ st.markdown("""
     }
 
     @media (max-width: 768px) {
-        /* Force the board rows to remain horizontal on mobile */
-        [data-testid="column"] [data-testid="stHorizontalBlock"] {
+        /* Force the board rows to remain horizontal on mobile using surgical :has() selector */
+        [data-testid="stHorizontalBlock"]:has(button[kind="secondary"]) {
             flex-direction: row !important;
             flex-wrap: nowrap !important;
             width: 100% !important;
             gap: 8px !important;
         }
-        [data-testid="column"] [data-testid="stHorizontalBlock"] > div {
+        [data-testid="stHorizontalBlock"]:has(button[kind="secondary"]) > [data-testid="column"] {
             width: 33.33% !important;
             min-width: 0 !important;
             max-width: 33.33% !important;
             flex: 1 1 33.33% !important;
         }
-        /* Make buttons smaller on mobile to maintain grid square aspect ratio */
+        /* Scale text down on mobile to prevent overflow */
         button[kind="secondary"] {
             font-size: 2.2rem !important;
             border-radius: 12px !important;
