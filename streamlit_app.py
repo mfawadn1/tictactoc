@@ -178,9 +178,9 @@ st.markdown("""
             align-items: center !important;
         }
 
-        /* Keep the horizontal block (columns) compact, responsive, and perfectly centered (5% further reduction) */
+        /* Keep the horizontal block (columns) compact, responsive, and perfectly centered (additional 10% reduction) */
         div[data-testid="stHorizontalBlock"] {
-            max-width: 142px !important;
+            max-width: 128px !important;
             width: 100% !important;
             margin: 0 auto !important;
             display: flex !important;
@@ -195,13 +195,13 @@ st.markdown("""
             padding: 0 !important;
         }
 
-        /* Scale button dimensions and text for a premium feel on mobile (5% further reduction) */
+        /* Scale button dimensions and text for a premium feel on mobile (additional 10% reduction) */
         button[kind="secondary"] {
-            font-size: 1.05rem !important;
-            border-radius: 5px !important;
+            font-size: 0.95rem !important;
+            border-radius: 4px !important;
         }
         button[kind="secondary"] p {
-            font-size: 1.05rem !important;
+            font-size: 0.95rem !important;
         }
         
         /* Scale headers down on mobile to prevent massive text scrolling */
