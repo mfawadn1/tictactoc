@@ -99,12 +99,19 @@ st.markdown("""
     }
 
     @media (max-width: 768px) {
-        /* Force the board rows to remain horizontal on mobile using surgical :has() selector */
+        /* Reduce overall page padding on mobile to save vertical space */
+        [data-testid="stAppViewBlockContainer"] {
+            padding: 1rem 0.5rem !important;
+        }
+
+        /* Center and restrict the width of the board rows so it fits on narrow screens */
         [data-testid="stHorizontalBlock"]:has(button[kind="secondary"]) {
             flex-direction: row !important;
             flex-wrap: nowrap !important;
             width: 100% !important;
-            gap: 8px !important;
+            max-width: 300px !important; /* Lock maximum width to perfectly fit all mobiles */
+            margin: 0 auto !important; /* Center the grid container */
+            gap: 6px !important;
         }
         [data-testid="stHorizontalBlock"]:has(button[kind="secondary"]) > [data-testid="column"] {
             width: 33.33% !important;
@@ -112,13 +119,23 @@ st.markdown("""
             max-width: 33.33% !important;
             flex: 1 1 33.33% !important;
         }
-        /* Scale text down on mobile to prevent overflow */
+        /* Scale text and border radius down on mobile */
         button[kind="secondary"] {
-            font-size: 2.2rem !important;
-            border-radius: 12px !important;
+            font-size: 2rem !important;
+            border-radius: 10px !important;
         }
         button[kind="secondary"] p {
-            font-size: 2.2rem !important;
+            font-size: 2rem !important;
+        }
+        
+        /* Scale headers down on mobile to prevent massive text scrolling */
+        h1 {
+            font-size: 1.8rem !important;
+            padding-top: 10px !important;
+        }
+        h3 {
+            font-size: 1.1rem !important;
+            margin-bottom: 1rem !important;
         }
     }
     </style>
