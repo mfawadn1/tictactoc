@@ -3,7 +3,35 @@ import numpy as np
 import pickle
 import os
 import time
+import pandas as pd
+import mysql.connector
 from main import run_training_pipeline
+
+# Helper to get total rows from CSV (fallback to MySQL if online)
+def get_total_rows():
+    csv_path = "tictactoe_data.csv"
+    # Try CSV first (always available in repo)
+    if os.path.exists(csv_path):
+        try:
+            df = pd.read_csv(csv_path, header=None)
+            return len(df)
+        except Exception:
+            pass
+    # Fallback to MySQL if reachable
+    try:
+        conn = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="tictactoe"
+        )
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM user_game_data")
+        count = cur.fetchone()[0]
+        conn.close()
+        return count
+    except Exception:
+        return 0
 
 # --- CONFIG ---
 st.set_page_config(page_title="Tic-Tac-Toe", page_icon="🤖", layout="wide")
@@ -369,6 +397,9 @@ with st.sidebar:
     st.write(f"🏆 Player: {st.session_state.scores['Player']}")
     st.write(f"🤖 AI: {st.session_state.scores['AI']}")
     st.write(f"🤝 Draws: {st.session_state.scores['Draws']}")
+    # Show persisted total games count (CSV first, MySQL fallback)
+    persisted_total = get_total_rows()
+    st.write(f"📊 Total games saved: `{persisted_total}` rows")
     
     st.header("3. Retraining Pipeline")
     if st.button("🚀 Run Training Pipeline", type="primary", use_container_width=True):
