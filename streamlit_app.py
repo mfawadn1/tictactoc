@@ -140,9 +140,16 @@ st.markdown("""
             display: none !important;
         }
 
-        /* Reduce overall page padding on mobile to save vertical space */
+        /* Reduce overall page padding on mobile to save vertical space and align close to edges */
         [data-testid="stAppViewBlockContainer"] {
-            padding: 0.4rem 0.15rem !important;
+            padding: 0.4rem 0 !important;
+        }
+
+        /* Eliminate outer vertical block padding that shifts content to the right */
+        [data-testid="stVerticalBlock"] {
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
         }
 
         /* Center and restrict the width of the board rows so it fits on narrow screens */
