@@ -233,9 +233,13 @@ with st.sidebar:
     st.header("3. Retraining Pipeline")
     if st.button("🚀 Run Training Pipeline", type="primary", use_container_width=True):
         with st.spinner("Retraining models..."):
-            best_name, best_acc, best_path = run_training_pipeline()
-            st.success(f"Best Model: {best_name}")
-            st.info(f"Accuracy: {best_acc:.4f}")
+            best_name, best_acc, best_path, results, total_rows = run_training_pipeline()
+            st.session_state.retrain_stats = {
+                "best_name": best_name,
+                "best_acc": best_acc,
+                "total_rows": total_rows,
+                "results": results
+            }
             st.cache_resource.clear() # Force reload model
             st.rerun()
 
@@ -245,6 +249,36 @@ with st.sidebar:
         st.image("plots/confusion_matrices.png", caption="Confusion Matrices")
 
 # --- MAIN UI ---
+if "retrain_stats" in st.session_state:
+    stats = st.session_state.retrain_stats
+    if hasattr(st, "dialog"):
+        @st.dialog("🔄 Retraining Complete!")
+        def show_stats_dialog(stats_data):
+            st.markdown(f"### 📊 Total Dataset Size: **{stats_data['total_rows']} rows**")
+            st.divider()
+            st.markdown("### 📈 Model Performance Breakdown:")
+            for model_name, res in stats_data['results'].items():
+                acc_percentage = res['accuracy'] * 100
+                st.markdown(f"💡 **{model_name}**: `{acc_percentage:.2f}%` accuracy")
+            st.divider()
+            st.success(f"🏆 **Winning Model Deployed:** {stats_data['best_name']} ({stats_data['best_acc']*100:.2f}%)")
+            if st.button("Got it!", type="primary", use_container_width=True):
+                del st.session_state.retrain_stats
+                st.rerun()
+        show_stats_dialog(stats)
+    else:
+        st.warning("🔄 Retraining Complete! See stats below:")
+        with st.container(border=True):
+            st.subheader("📊 MLOps Retraining Statistics")
+            st.markdown(f"**Total Dataset Size:** `{stats['total_rows']}` rows")
+            for model_name, res in stats['results'].items():
+                acc_percentage = res['accuracy'] * 100
+                st.markdown(f"- **{model_name}**: `{acc_percentage:.2f}%` accuracy")
+            st.success(f"🏆 **Selected Model:** {stats['best_name']} ({stats['best_acc']*100:.2f}%)")
+            if st.button("Close Stats Panel", type="primary", use_container_width=True):
+                del st.session_state.retrain_stats
+                st.rerun()
+
 st.title("🎮 Tic-Tac-Toe by Fawad")
 st.subheader("Play against a Machine Learning powered Minimax AI")
 

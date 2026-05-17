@@ -10,6 +10,13 @@ import os
 def run_training_pipeline():
     print("=== Tic Tac Toe ML Training Pipeline ===\n")
     
+    from data_preprocessing import load_and_preprocess_data
+    data_split = load_and_preprocess_data()
+    total_rows = 0
+    if data_split is not None:
+        X_train, X_test, _, _, _ = data_split
+        total_rows = len(X_train) + len(X_test)
+        
     results = {}
     
     # Run SVM
@@ -83,7 +90,7 @@ def run_training_pipeline():
     shutil.copy(best_path, 'models/best_model.pkl')
     print(f"Best model copied to 'models/best_model.pkl'.")
     
-    return best_model, max_acc, best_path
+    return best_model, max_acc, best_path, results, total_rows
 
 
 def main():
