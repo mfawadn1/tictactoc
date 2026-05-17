@@ -165,14 +165,14 @@ st.markdown("""
 
         /* Keep the horizontal block (columns) compact, responsive, and perfectly centered */
         div[data-testid="stHorizontalBlock"] {
-            max-width: 300px !important;
+            max-width: 210px !important;
             width: 100% !important;
             margin: 0 auto !important;
             display: flex !important;
             flex-direction: row !important;
             justify-content: center !important;
             align-items: center !important;
-            gap: 6px !important;
+            gap: 4px !important;
         }
 
         /* Eliminate any side gutters/padding on columns inside the board to keep it clean */
@@ -182,11 +182,11 @@ st.markdown("""
 
         /* Scale button dimensions and text for a premium feel on mobile */
         button[kind="secondary"] {
-            font-size: 2.2rem !important;
-            border-radius: 12px !important;
+            font-size: 1.5rem !important;
+            border-radius: 8px !important;
         }
         button[kind="secondary"] p {
-            font-size: 2.2rem !important;
+            font-size: 1.5rem !important;
         }
         
         /* Scale headers down on mobile to prevent massive text scrolling */
