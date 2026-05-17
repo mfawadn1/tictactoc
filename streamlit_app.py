@@ -142,21 +142,27 @@ st.markdown("""
 
         /* Reduce overall page padding on mobile to save vertical space */
         [data-testid="stAppViewBlockContainer"] {
-            padding: 0.5rem 0.25rem !important;
+            padding: 0.4rem 0.15rem !important;
         }
 
         /* Center and restrict the width of the board rows so it fits on narrow screens */
         div[data-testid="stHorizontalBlock"] {
-            max-width: min(220px, 60vw) !important; /* Cap board to 220px maximum on narrow screens */
-            gap: 4px !important;
+            max-width: min(180px, 50vw) !important; /* Highly compact box sizes */
+            gap: 2px !important; /* Reduced gap between boxes */
         }
+
+        /* Eliminate any side gutters/padding on columns inside the board to reduce distance from sides */
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+            padding: 0 !important;
+        }
+
         /* Scale text and border radius down on mobile */
         button[kind="secondary"] {
-            font-size: 1.8rem !important;
-            border-radius: 8px !important;
+            font-size: 1.4rem !important;
+            border-radius: 6px !important;
         }
         button[kind="secondary"] p {
-            font-size: 1.8rem !important;
+            font-size: 1.4rem !important;
         }
         
         /* Scale headers down on mobile to prevent massive text scrolling */
