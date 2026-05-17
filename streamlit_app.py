@@ -40,10 +40,15 @@ st.markdown("""
     }
 
     /* Grid Buttons (Square format) targeted specifically */
+    div.stButton:has(button[kind="secondary"]),
+    div[data-testid="stButton"]:has(button[kind="secondary"]),
     button[kind="secondary"] {
         width: 100% !important;
         aspect-ratio: 1 / 1 !important;
         height: auto !important;
+    }
+
+    button[kind="secondary"] {
         font-size: 3.5rem !important;
         font-weight: 700 !important;
         background: rgba(30, 41, 59, 0.4) !important;
@@ -109,7 +114,7 @@ st.markdown("""
             flex-direction: row !important;
             flex-wrap: nowrap !important;
             width: 100% !important;
-            max-width: 300px !important; /* Lock maximum width to perfectly fit all mobiles */
+            max-width: min(260px, 75vw) !important; /* Dynamically scale grid to fit any narrow mobile perfectly */
             margin: 0 auto !important; /* Center the grid container */
             gap: 6px !important;
         }
