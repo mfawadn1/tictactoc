@@ -96,6 +96,31 @@ st.markdown("""
         50% { transform: scale(1.05); }
         100% { transform: scale(1); }
     }
+
+    @media (max-width: 768px) {
+        /* Force the board rows to remain horizontal on mobile */
+        div[data-testid="column"] div[data-testid="stHorizontalBlock"] {
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            width: 100% !important;
+            gap: 8px !important;
+        }
+        div[data-testid="column"] div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+            width: 33.33% !important;
+            min-width: 33.33% !important;
+            max-width: 33.33% !important;
+            flex: 1 1 33.33% !important;
+        }
+        /* Make buttons smaller on mobile to maintain grid square aspect ratio */
+        button[kind="secondary"] {
+            height: 80px !important;
+            font-size: 2.2rem !important;
+            border-radius: 12px !important;
+        }
+        button[kind="secondary"] p {
+            font-size: 2.2rem !important;
+        }
+    }
     </style>
 """, unsafe_allow_html=True)
 
