@@ -40,8 +40,8 @@ st.markdown("""
     }
 
     /* Grid Buttons (Square format) targeted specifically */
-    [data-testid="column"] [data-testid="stHorizontalBlock"] div.stButton,
-    [data-testid="column"] [data-testid="stHorizontalBlock"] button,
+    div[data-testid="stHorizontalBlock"] div.stButton,
+    div[data-testid="stHorizontalBlock"] button,
     button[kind="secondary"] {
         width: 100% !important;
         aspect-ratio: 1 / 1 !important;
@@ -87,6 +87,24 @@ st.markdown("""
         box-shadow: 0 15px 25px -10px rgba(37, 99, 235, 0.5) !important;
     }
 
+    /* Center and restrict the width of the board rows globally */
+    div[data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        width: 100% !important;
+        max-width: 320px !important; /* Perfect desktop size */
+        margin: 0 auto !important; /* Center the grid container */
+        gap: 8px !important;
+    }
+
+    div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+        width: 33.33% !important;
+        min-width: 0 !important;
+        max-width: 33.33% !important;
+        flex: 1 1 33.33% !important;
+    }
+
     .winner-text {
         font-size: 2.5rem;
         color: #4ade80;
@@ -110,19 +128,9 @@ st.markdown("""
         }
 
         /* Center and restrict the width of the board rows so it fits on narrow screens */
-        [data-testid="column"] [data-testid="stHorizontalBlock"] {
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
-            width: 100% !important;
+        div[data-testid="stHorizontalBlock"] {
             max-width: min(260px, 75vw) !important; /* Dynamically scale grid to fit any narrow mobile perfectly */
-            margin: 0 auto !important; /* Center the grid container */
             gap: 6px !important;
-        }
-        [data-testid="column"] [data-testid="stHorizontalBlock"] > [data-testid="column"] {
-            width: 33.33% !important;
-            min-width: 0 !important;
-            max-width: 33.33% !important;
-            flex: 1 1 33.33% !important;
         }
         /* Scale text and border radius down on mobile */
         button[kind="secondary"] {
@@ -371,7 +379,7 @@ else:
 
 # Grid Layout
 st.write("") # Add some spacing
-spacer_left, grid_container, spacer_right = st.columns([1, 1.5, 1])
+grid_container = st.container()
 
 with grid_container:
     for row in range(3):
