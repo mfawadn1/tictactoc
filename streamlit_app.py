@@ -46,6 +46,8 @@ st.markdown("""
         width: 100% !important;
         aspect-ratio: 1 / 1 !important;
         height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     button[kind="secondary"] {
@@ -124,31 +126,41 @@ st.markdown("""
     @media (max-width: 768px) {
         /* Reduce overall page padding on mobile to save vertical space */
         [data-testid="stAppViewBlockContainer"] {
-            padding: 1rem 0.5rem !important;
+            padding: 0.5rem 0.25rem !important;
         }
 
         /* Center and restrict the width of the board rows so it fits on narrow screens */
         div[data-testid="stHorizontalBlock"] {
-            max-width: min(260px, 75vw) !important; /* Dynamically scale grid to fit any narrow mobile perfectly */
-            gap: 6px !important;
+            max-width: min(220px, 60vw) !important; /* Cap board to 220px maximum on narrow screens */
+            gap: 4px !important;
         }
         /* Scale text and border radius down on mobile */
         button[kind="secondary"] {
-            font-size: 2rem !important;
-            border-radius: 10px !important;
+            font-size: 1.8rem !important;
+            border-radius: 8px !important;
         }
         button[kind="secondary"] p {
-            font-size: 2rem !important;
+            font-size: 1.8rem !important;
         }
         
         /* Scale headers down on mobile to prevent massive text scrolling */
         h1 {
-            font-size: 1.8rem !important;
-            padding-top: 10px !important;
+            font-size: 1.4rem !important;
+            padding-top: 5px !important;
+            margin: 0 !important;
         }
         h3 {
-            font-size: 1.1rem !important;
-            margin-bottom: 1rem !important;
+            font-size: 0.95rem !important;
+            margin: 0 0 0.5rem 0 !important;
+        }
+        
+        /* Compact Tip Alert margins */
+        [data-testid="stNotification"], .stAlert {
+            padding: 0.4rem 0.6rem !important;
+            margin: 5px 0 !important;
+        }
+        [data-testid="stNotification"] p, .stAlert p {
+            font-size: 0.85rem !important;
         }
     }
     </style>
