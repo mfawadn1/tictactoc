@@ -140,53 +140,82 @@ st.markdown("""
             display: none !important;
         }
 
-        /* Reduce overall page padding on mobile to save vertical space and align close to edges */
-        [data-testid="stAppViewBlockContainer"] {
-            padding: 0.4rem 0 !important;
+        /* Center the main container and remove excessive desktop padding/margins */
+        div[data-testid="stAppViewBlockContainer"] {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+            max-width: 100% !important;
+            min-width: auto !important;
+            margin: 0 auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
         }
 
-        /* Eliminate outer vertical block padding that shifts content to the right */
-        [data-testid="stVerticalBlock"] {
-            padding: 0 !important;
-            margin: 0 !important;
+        /* Center the overall vertical block inside the container */
+        div[data-testid="stVerticalBlock"] {
             width: 100% !important;
+            margin: 0 auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
         }
 
-        /* Center and restrict the width of the board rows so it fits on narrow screens */
+        /* Keep the horizontal block (columns) compact, responsive, and perfectly centered */
         div[data-testid="stHorizontalBlock"] {
-            max-width: min(180px, 50vw) !important; /* Highly compact box sizes */
-            gap: 2px !important; /* Reduced gap between boxes */
+            max-width: 300px !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 6px !important;
         }
 
-        /* Eliminate any side gutters/padding on columns inside the board to reduce distance from sides */
+        /* Eliminate any side gutters/padding on columns inside the board to keep it clean */
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
             padding: 0 !important;
         }
 
-        /* Scale text and border radius down on mobile */
+        /* Scale button dimensions and text for a premium feel on mobile */
         button[kind="secondary"] {
-            font-size: 1.4rem !important;
-            border-radius: 6px !important;
+            font-size: 2.2rem !important;
+            border-radius: 12px !important;
         }
         button[kind="secondary"] p {
-            font-size: 1.4rem !important;
+            font-size: 2.2rem !important;
         }
         
         /* Scale headers down on mobile to prevent massive text scrolling */
         h1 {
-            font-size: 1.4rem !important;
+            font-size: 1.6rem !important;
             padding-top: 5px !important;
-            margin: 0 !important;
+            margin: 0 0 5px 0 !important;
+            text-align: center !important;
+            width: 100% !important;
         }
         h3 {
-            font-size: 0.95rem !important;
-            margin: 0 0 0.5rem 0 !important;
+            font-size: 1.0rem !important;
+            margin: 0 0 0.8rem 0 !important;
+            text-align: center !important;
+            width: 100% !important;
+        }
+        
+        /* Center all Markdown texts and elements */
+        .stMarkdown, .stHeading, div[data-testid="stMarkdownContainer"] {
+            text-align: center !important;
+            width: 100% !important;
         }
         
         /* Compact Tip Alert margins */
         [data-testid="stNotification"], .stAlert {
             padding: 0.4rem 0.6rem !important;
             margin: 5px 0 !important;
+            width: 100% !important;
+            max-width: 300px !important;
         }
         [data-testid="stNotification"] p, .stAlert p {
             font-size: 0.85rem !important;
