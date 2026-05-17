@@ -13,13 +13,17 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
     
-    html, body, [class*="css"] {
+    html, body {
         font-family: 'Outfit', sans-serif;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
     }
 
     /* Main Background & Glassmorphism container approximation */
     .stApp {
         background: radial-gradient(circle at top right, #1e293b 0%, #0b1120 100%);
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
     }
 
     /* Title Gradient */
@@ -48,6 +52,13 @@ st.markdown("""
         height: auto !important;
         margin: 0 !important;
         padding: 0 !important;
+    }
+
+    /* Deep reset inner elements of button to prevent nested spacing issues */
+    div[data-testid="stHorizontalBlock"] button * {
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1 !important;
     }
 
     button[kind="secondary"] {
@@ -124,6 +135,11 @@ st.markdown("""
     }
 
     @media (max-width: 768px) {
+        /* Disable top header and bottom footer elements to gain 90px vertical space */
+        header[data-testid="stHeader"], footer {
+            display: none !important;
+        }
+
         /* Reduce overall page padding on mobile to save vertical space */
         [data-testid="stAppViewBlockContainer"] {
             padding: 0.5rem 0.25rem !important;
