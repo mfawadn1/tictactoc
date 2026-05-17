@@ -425,7 +425,7 @@ if "retrain_stats" in st.session_state:
     if hasattr(st, "dialog"):
         @st.dialog("🔄 Retraining Complete!")
         def show_stats_dialog(stats_data):
-            st.markdown(f"### 📊 Total Dataset Size: **{stats_data['total_rows']} rows**")
+            st.markdown(f"### 📊 Total Dataset Size: **{get_total_rows()} rows**")
             st.divider()
             st.markdown("### 📈 Model Performance Breakdown:")
             for model_name, res in stats_data['results'].items():
