@@ -110,7 +110,7 @@ st.markdown("""
         }
 
         /* Center and restrict the width of the board rows so it fits on narrow screens */
-        [data-testid="stHorizontalBlock"]:has(button[kind="secondary"]) {
+        [data-testid="column"] [data-testid="stHorizontalBlock"]:has(button[kind="secondary"]) {
             flex-direction: row !important;
             flex-wrap: nowrap !important;
             width: 100% !important;
@@ -118,7 +118,7 @@ st.markdown("""
             margin: 0 auto !important; /* Center the grid container */
             gap: 6px !important;
         }
-        [data-testid="stHorizontalBlock"]:has(button[kind="secondary"]) > [data-testid="column"] {
+        [data-testid="column"] [data-testid="stHorizontalBlock"]:has(button[kind="secondary"]) > [data-testid="column"] {
             width: 33.33% !important;
             min-width: 0 !important;
             max-width: 33.33% !important;
