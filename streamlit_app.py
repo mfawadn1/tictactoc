@@ -40,8 +40,8 @@ st.markdown("""
     }
 
     /* Grid Buttons (Square format) targeted specifically */
-    div.stButton:has(button[kind="secondary"]),
-    div[data-testid="stButton"]:has(button[kind="secondary"]),
+    [data-testid="column"] [data-testid="stHorizontalBlock"] div.stButton,
+    [data-testid="column"] [data-testid="stHorizontalBlock"] button,
     button[kind="secondary"] {
         width: 100% !important;
         aspect-ratio: 1 / 1 !important;
@@ -110,7 +110,7 @@ st.markdown("""
         }
 
         /* Center and restrict the width of the board rows so it fits on narrow screens */
-        [data-testid="column"] [data-testid="stHorizontalBlock"]:has(button[kind="secondary"]) {
+        [data-testid="column"] [data-testid="stHorizontalBlock"] {
             flex-direction: row !important;
             flex-wrap: nowrap !important;
             width: 100% !important;
@@ -118,7 +118,7 @@ st.markdown("""
             margin: 0 auto !important; /* Center the grid container */
             gap: 6px !important;
         }
-        [data-testid="column"] [data-testid="stHorizontalBlock"]:has(button[kind="secondary"]) > [data-testid="column"] {
+        [data-testid="column"] [data-testid="stHorizontalBlock"] > [data-testid="column"] {
             width: 33.33% !important;
             min-width: 0 !important;
             max-width: 33.33% !important;
