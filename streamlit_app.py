@@ -135,9 +135,24 @@ st.markdown("""
     }
 
     @media (max-width: 768px) {
-        /* Disable top header and bottom footer elements to gain 90px vertical space */
-        header[data-testid="stHeader"], footer {
+        /* Keep header active but styled transparently and compactly so the sidebar toggle is clickable */
+        header[data-testid="stHeader"] {
+            background-color: transparent !important;
+            color: white !important;
+        }
+
+        footer {
             display: none !important;
+        }
+
+        /* Ensure the sidebar toggle button is beautifully styled, floating, and easy to tap on mobile */
+        button[data-testid="sidebar-toggle"] {
+            background-color: rgba(30, 41, 59, 0.8) !important;
+            border-radius: 50% !important;
+            z-index: 99999 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+            margin: 10px !important;
         }
 
         /* Center the main container and remove excessive desktop padding/margins */
@@ -163,9 +178,9 @@ st.markdown("""
             align-items: center !important;
         }
 
-        /* Keep the horizontal block (columns) compact, responsive, and perfectly centered */
+        /* Keep the horizontal block (columns) compact, responsive, and perfectly centered (5% further reduction) */
         div[data-testid="stHorizontalBlock"] {
-            max-width: 150px !important;
+            max-width: 142px !important;
             width: 100% !important;
             margin: 0 auto !important;
             display: flex !important;
@@ -180,13 +195,13 @@ st.markdown("""
             padding: 0 !important;
         }
 
-        /* Scale button dimensions and text for a premium feel on mobile */
+        /* Scale button dimensions and text for a premium feel on mobile (5% further reduction) */
         button[kind="secondary"] {
-            font-size: 1.1rem !important;
-            border-radius: 6px !important;
+            font-size: 1.05rem !important;
+            border-radius: 5px !important;
         }
         button[kind="secondary"] p {
-            font-size: 1.1rem !important;
+            font-size: 1.05rem !important;
         }
         
         /* Scale headers down on mobile to prevent massive text scrolling */
