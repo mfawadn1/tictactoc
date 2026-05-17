@@ -41,8 +41,9 @@ st.markdown("""
 
     /* Grid Buttons (Square format) targeted specifically */
     button[kind="secondary"] {
-        height: 120px !important;
         width: 100% !important;
+        aspect-ratio: 1 / 1 !important;
+        height: auto !important;
         font-size: 3.5rem !important;
         font-weight: 700 !important;
         background: rgba(30, 41, 59, 0.4) !important;
@@ -99,21 +100,20 @@ st.markdown("""
 
     @media (max-width: 768px) {
         /* Force the board rows to remain horizontal on mobile */
-        div[data-testid="column"] div[data-testid="stHorizontalBlock"] {
+        [data-testid="column"] [data-testid="stHorizontalBlock"] {
             flex-direction: row !important;
             flex-wrap: nowrap !important;
             width: 100% !important;
             gap: 8px !important;
         }
-        div[data-testid="column"] div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+        [data-testid="column"] [data-testid="stHorizontalBlock"] > div {
             width: 33.33% !important;
-            min-width: 33.33% !important;
+            min-width: 0 !important;
             max-width: 33.33% !important;
             flex: 1 1 33.33% !important;
         }
         /* Make buttons smaller on mobile to maintain grid square aspect ratio */
         button[kind="secondary"] {
-            height: 80px !important;
             font-size: 2.2rem !important;
             border-radius: 12px !important;
         }
