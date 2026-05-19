@@ -450,7 +450,7 @@ if "retrain_stats" in st.session_state:
                 del st.session_state.retrain_stats
                 st.rerun()
 
-st.title("🎮 Tic-Tac-Toe by Fawad")
+st.title("🎮 Tic-Tac-Toe for MLops game")
 st.subheader("Play against a Machine Learning powered Minimax AI")
 
 if st.session_state.winner:
